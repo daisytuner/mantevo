@@ -1,0 +1,25 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+
+parameters:
+  timeout: 60
+  partitions:
+    - chamomile
+
+steps:
+  build: |
+    sudo apt-get update
+    sudo apt-get install -y openmpi-bin openmpi-doc libopenmpi-dev
+
+    cd miniAMR
+    OMPI_CC=gcc OMPI_CXX=g++ mpic++ -O3 -g -lm -lgomp block.c check_sum.c comm_block.c comm.c comm_parent.c comm_refine.c comm_util.c driver.c init.c main.c move.c pack.c plot.c profile.c rcb.c refine.c sfc.c stencil.c util.c -g -o miniAMR.out -fopenmp
+  run:
+    miniAMR:
+      command: ./miniAMR.out --npx 1 --npy 1 --npz 1 --nx 8 --ny 8 --nz 8
+      cwd: miniAMR
+      measurements: 5
+      profiler: perf

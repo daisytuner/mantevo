@@ -20,12 +20,12 @@ steps:
 
   run:
     miniMDlj:
-      command: ./miniMD.out -i in.lj.miniMD
+      command: mpirun -n 1 ./miniMD.out -i in.lj.miniMD
       cwd: miniMD
       measurements: 5
       profiler: perf
     miniMDeam:
-      command: ./miniMD.out -i in.eam.miniMD
+      command: mpirun -n 1 ./miniMD.out -i in.eam.miniMD
       cwd: miniMD
       measurements: 5
       profiler: perf

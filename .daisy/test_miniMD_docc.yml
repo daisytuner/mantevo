@@ -23,6 +23,7 @@ steps:
       command: mpirun -n 1 ./miniMD.out -i in.lj.miniMD
       cwd: miniMD
       measurements: 5
+      loops: true
       profiler: perf
     miniMDeam:
       command: mpirun -n 1 ./miniMD.out -i in.eam.miniMD

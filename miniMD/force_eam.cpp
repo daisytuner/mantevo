@@ -74,7 +74,7 @@ ForceEAM::~ForceEAM()
 void ForceEAM::setup()
 {
   me = threads->mpi_me;
-  coeff("mantevo/miniMD/Cu_u6.eam");
+  coeff("Cu_u6.eam");
   init_style();
 }
 

@@ -13,10 +13,10 @@ parameters:
 steps:
   build: |
     sudo apt-get update
-    sudo apt-get install -y openmpi-bin openmpi-doc libopenmpi-dev
+    sudo apt-get install -y mpich libmpich-dev
 
     cd miniMD
-    OMPI_CC=docc OMPI_CXX=docc-cpp mpic++ -O3 -g -DPRECISION=2 -DOMPFORSCHEDULE= -lm -lgomp input.cpp integrate.cpp atom.cpp force_lj.cpp force_eam.cpp neighbor.cpp thermo.cpp timer.cpp comm.cpp output.cpp setup.cpp ljs.cpp -Xclang -no-opaque-pointers -mllvm -hotspot -g -o miniMD.out -ldaisy_rtl
+    MPICH_CC=docc MPICH_CXX=docc-cpp mpic++ -mllvm -hotspot -O3 -g -DPRECISION=2 -DOMPFORSCHEDULE= input.cpp integrate.cpp atom.cpp force_lj.cpp force_eam.cpp neighbor.cpp thermo.cpp timer.cpp comm.cpp output.cpp setup.cpp ljs.cpp -o miniMD.out -lm -lgomp -ldaisy_rtl
 
   run:
     miniMDlj:

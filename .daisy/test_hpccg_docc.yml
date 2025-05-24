@@ -12,11 +12,20 @@ parameters:
 
 steps:
   build: |
+    sudo apt-get update
+    sudo apt-get install -y mpich libmpich-dev
+
     cd HPCCG
-    docc-cpp -O3 generate_matrix.cpp make_local_matrix.cpp read_HPC_row.cpp HPCCG.cpp ddot.cpp HPC_sparsemv.cpp waxpby.cpp exchange_externals.cpp YAML_Doc.cpp YAML_Element.cpp mytimer.cpp main.cpp -Xclang -no-opaque-pointers -mllvm -hotspot -g -o hpccg.out -ldaisy_rtl
+    MPICH_CC=docc MPICH_CXX=docc-cpp mpic++ -g -O3 -mllvm -hotspot -DUSING_MPI=1 generate_matrix.cpp make_local_matrix.cpp read_HPC_row.cpp HPCCG.cpp ddot.cpp HPC_sparsemv.cpp waxpby.cpp exchange_externals.cpp YAML_Doc.cpp YAML_Element.cpp mytimer.cpp main.cpp -o hpccg.out -lm -lgomp -ldaisy_rtl
   run:
-    hpccg:
-      command: ./hpccg.out 50 50 50
+    hpccg_50:
+      command: mpirun -n 1 ./hpccg.out 50 50 50
+      cwd: HPCCG
+      measurements: 5
+      profiler: perf
+      loops: true
+    hpccg_100:
+      command: mpirun -n 1 ./hpccg.out 100 100 100
       cwd: HPCCG
       measurements: 5
       profiler: perf

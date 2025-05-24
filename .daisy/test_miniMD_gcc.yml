@@ -8,15 +8,14 @@ on:
 parameters:
   timeout: 60
   partitions:
-    - chamomile
+    - zinnia
 
 steps:
   build: |
     sudo apt-get update
-    sudo apt-get install -y mpich libmpich-dev
-
+    sudo apt-get install -y openmpi-bin openmpi-doc libopenmpi-dev
     cd miniMD
-    MPICH_CC=gcc MPICH_CXX=g++ mpic++ -O3 -g -DPRECISION=2 -DOMPFORSCHEDULE= input.cpp integrate.cpp atom.cpp force_lj.cpp force_eam.cpp neighbor.cpp thermo.cpp timer.cpp comm.cpp output.cpp setup.cpp ljs.cpp -o miniMD.out -lgomp -lm
+    OMPI_CC=gcc OMPI_CXX=g++ mpic++ -O3 -g -DPRECISION=2 -DOMPFORSCHEDULE= -lm -lgomp -O3 input.cpp integrate.cpp atom.cpp force_lj.cpp force_eam.cpp neighbor.cpp thermo.cpp timer.cpp comm.cpp output.cpp setup.cpp ljs.cpp -g -o miniMD.out
 
   run:
     miniMDlj:

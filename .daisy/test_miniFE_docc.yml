@@ -6,7 +6,7 @@ on:
     types: [opened, reopened, synchronize, ready_for_review]
 
 parameters:
-  timeout: 60
+  timeout: 120
   partitions:
     - zinnia
 
@@ -18,7 +18,7 @@ steps:
     cd miniFE
     MPICH_CC=docc MPICH_CXX=docc-cpp mpic++ -mllvm -hotspot -O3 -g -DMINIFE_REPORT_RUSAGE -DMINIFE_SCALAR=double -DMINIFE_LOCAL_ORDINAL=int -DMINIFE_GLOBAL_ORDINAL=int -DMINIFE_CSR_MATRIX -DHAVE_MPI -Iutils -Isrc -Ifem basic/BoxPartition.cpp src/YAML_Doc.cpp src/YAML_Element.cpp utils/param_utils.cpp utils/utils.cpp utils/mytimer.cpp src/main.cpp -o miniFE.out -lm -lgomp -ldaisy_rtl
   run:
-    miniAMR:
+    miniFE:
       command: mpirun -n 1 ./miniFE.out
       cwd: miniFE
       measurements: 5

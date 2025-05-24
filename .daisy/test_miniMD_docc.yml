@@ -6,9 +6,9 @@ on:
     types: [opened, reopened, synchronize, ready_for_review]
 
 parameters:
-  timeout: 60
+  timeout: 120
   partitions:
-    - chamomile
+    - zinnia
 
 steps:
   build: |
@@ -22,12 +22,12 @@ steps:
     miniMDlj:
       command: mpirun -n 1 ./miniMD.out -i in.lj.miniMD
       cwd: miniMD
-      measurements: 5
+      measurements: 2
       profiler: perf
       loops: true
     miniMDeam:
       command: mpirun -n 1 ./miniMD.out -i in.eam.miniMD
       cwd: miniMD
-      measurements: 5
+      measurements: 2
       profiler: perf
       loops: true

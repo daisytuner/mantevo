@@ -8,7 +8,7 @@ on:
 parameters:
   timeout: 60
   partitions:
-    - zinnia
+    - chamomile
 
 steps:
   build: |
@@ -16,10 +16,10 @@ steps:
     sudo apt-get install -y openmpi-bin openmpi-doc libopenmpi-dev
 
     cd miniFE
-    OMPI_CC=gcc OMPI_CXX=g++ mpic++ -O3 -lm -lgomp -DMINIFE_REPORT_RUSAGE -DMINIFE_SCALAR=double -DMINIFE_LOCAL_ORDINAL=int -DMINIFE_GLOBAL_ORDINAL=int -DMINIFE_CSR_MATRIX -DHAVE_MPI -Iutils -Isrc -Ifem basic/BoxPartition.cpp src/YAML_Doc.cpp src/YAML_Element.cpp utils/param_utils.cpp utils/utils.cpp utils/mytimer.cpp src/main.cpp -g -o miniFE.out -fopenmp
+    g++ -O3 -lm -lgomp -DMINIFE_REPORT_RUSAGE -DMINIFE_SCALAR=double -DMINIFE_LOCAL_ORDINAL=int -DMINIFE_GLOBAL_ORDINAL=int -DMINIFE_CSR_MATRIX -Iutils -Isrc -Ifem basic/BoxPartition.cpp src/YAML_Doc.cpp src/YAML_Element.cpp utils/param_utils.cpp utils/utils.cpp utils/mytimer.cpp src/main.cpp -g -o miniFE.out -fopenmp
   run:
-    miniAMR:
-      command: mpirun -n 1 ./miniFE.out
+    miniFE:
+      command: ./miniFE.out
       cwd: miniFE
       measurements: 5
       profiler: perf

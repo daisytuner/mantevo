@@ -25,9 +25,3 @@ steps:
       measurements: 5
       profiler: perf
       loops: true
-    miniMDeam:
-      command: mpirun -n 1 ./miniMD.out -i in.eam.miniMD
-      cwd: miniMD
-      measurements: 5
-      profiler: perf
-      loops: true

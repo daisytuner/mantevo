@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+
+parameters:
+  timeout: 120
+  partitions:
+    - zinnia
+
+steps:
+  build: |
+    sudo apt-get update
+    sudo apt-get install -y mpich libmpich-dev
+
+    cd miniAMR
+    MPICH_CC=docc MPICH_CXX=docc-cpp mpicc -mllvm -hotspot -O3 -g block.c check_sum.c comm_block.c comm.c comm_parent.c comm_refine.c comm_util.c driver.c init.c main.c move.c pack.c plot.c profile.c rcb.c refine.c sfc.c stencil.c util.c -o miniAMR.out -lgomp -lm -ldaisy_rtl
+  run:
+    miniAMR:
+      command: mpirun -n 1 ./miniAMR.out --npx 1 --npy 1 --npz 1 --nx 8 --ny 8 --nz 8
+      cwd: miniAMR
+      measurements: 1
+      profiler: perf
+      loops: true

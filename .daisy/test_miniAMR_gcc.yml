@@ -8,7 +8,7 @@ on:
 parameters:
   timeout: 60
   partitions:
-    - chamomile
+    - zinnia
 
 steps:
   build: |
